@@ -1,4 +1,4 @@
-import Groq from "groq"
+import Groq from "groq-sdk"
 import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
@@ -12,7 +12,7 @@ app.use(express.json())
 const groq = new Groq({
     apiKey : process.env.GROQ_API_KEY
 })
-app.post('api/chat', async (req , res) =>{
+app.post('/api/chat', async (req , res) =>{
     try{
         const prompt = req.body.prompt
         const language = req.body.lang
@@ -35,7 +35,7 @@ app.post('api/chat', async (req , res) =>{
             {role : "user" , content : prompt },
     ]
         }) 
-    const aireplay = response.choices[0].messages.content 
+    const aireplay = response.choices[0].message.content 
     const html = marked.parse(aireplay)
     res.json({replay : html })
     }catch(error){
